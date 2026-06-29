@@ -6,24 +6,24 @@
 
 /* --- Custom Properties -------------------------------- */
 :root {
-  --ink:          #0D3B2E;
-  --ink-soft:     #16493A;
-  --teal:         #1A6B5E;
-  --teal-hover:   #155A4D;
-  --teal-light:   #EBF5EF;
-  --gold:         #C9A84C;
-  --gold-light:   #F9F3E3;
-  --text:         #1E2832;
-  --text-muted:   #5A6475;
-  --text-faint:   #94A3B8;
+  --ink:          #0A2018;
+  --ink-soft:     #11352A;
+  --teal:         #155A4D;
+  --teal-hover:   #0F4A3F;
+  --teal-light:   #E8EFEA;
+  --gold:         #AE8C3C;
+  --gold-light:   #F3EDDC;
+  --text:         #1C2420;
+  --text-muted:   #59635D;
+  --text-faint:   #8B9590;
   --bg:           #FFFFFF;
-  --bg-alt:       #F2F7F9;
-  --border:       #E2E8F0;
-  --border-soft:  #EEF2F7;
+  --bg-alt:       #F2F4F0;
+  --border:       #DFE4DF;
+  --border-soft:  #ECEFEB;
   --white:        #FFFFFF;
 
   --font-display: 'Lora', Georgia, serif;
-  --font-body:    'Inter', system-ui, sans-serif;
+  --font-body:    'Source Serif 4', Georgia, serif;
 
   --radius-sm:  4px;
   --radius:     8px;
@@ -150,7 +150,7 @@ p:last-child { margin-bottom: 0; }
   background: var(--teal-hover);
   border-color: var(--teal-hover);
   color: var(--white);
-  box-shadow: 0 4px 14px rgba(26,107,94,0.28);
+  box-shadow: 0 4px 14px rgba(21,90,77,0.28);
 }
 
 .btn-outline {
@@ -308,8 +308,8 @@ p:last-child { margin-bottom: 0; }
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 72% 45%, rgba(26,107,94,0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 8%  80%, rgba(201,168,76,0.07) 0%, transparent 50%);
+    radial-gradient(ellipse at 72% 45%, rgba(21,90,77,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 8%  80%, rgba(174,140,60,0.07) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -408,7 +408,7 @@ p:last-child { margin-bottom: 0; }
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 60%, rgba(26,107,94,0.15) 0%, transparent 65%);
+  background: radial-gradient(ellipse at 50% 60%, rgba(21,90,77,0.15) 0%, transparent 65%);
 }
 .page-hero .container { position: relative; z-index: 1; }
 .page-hero .eyebrow   { margin-bottom: 1rem; }
@@ -819,7 +819,7 @@ p:last-child { margin-bottom: 0; }
 .form-select:focus,
 .form-textarea:focus {
   border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(26,107,94,0.1);
+  box-shadow: 0 0 0 3px rgba(21,90,77,0.1);
 }
 .form-input::placeholder,
 .form-textarea::placeholder { color: var(--text-faint); }

@@ -8,7 +8,7 @@ const CONFIG = {
   whatsapp: '918779528840',
 
   // Default pre-filled WhatsApp message
-  whatsappMessage: 'Hello! I would like to get a quote for academic writing support.',
+  whatsappMessage: 'Hello! I would like to know more about your study packs.',
 
   // Create a free form at https://formspree.io — paste your endpoint here
   formspree: 'https://formspree.io/f/YOURFORMID',

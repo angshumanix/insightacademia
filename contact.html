@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Get in touch with Insight Academia. WhatsApp for the fastest response, or use the contact form. Custom quotes within hours.">
-  <title>Contact — Insight Academia</title>
+  <meta name="description" content="Get in touch with Insight Academia. WhatsApp for the fastest response, or use the contact form to ask about a study pack.">
+  <title>Contact | Insight Academia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- ===================== MOBILE DRAWER ===================== -->
 <div class="nav__drawer" id="navDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
   <button class="nav__drawer-close" id="drawerClose" aria-label="Close menu">&#215;</button>
   <ul class="nav__drawer-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="services.html">Services</a></li>
+    <li><a href="services.html">Study Packs</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
@@ -27,14 +26,13 @@
   </a>
 </div>
 
-<!-- ===================== NAVIGATION ===================== -->
 <nav class="nav" id="nav" aria-label="Main navigation">
   <div class="container">
     <div class="nav__inner">
       <a href="index.html" class="nav__logo">Insight<span>Academia</span></a>
       <ul class="nav__links" role="list">
         <li><a href="index.html">Home</a></li>
-        <li><a href="services.html">Services</a></li>
+        <li><a href="services.html">Study Packs</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html" class="active">Contact</a></li>
       </ul>
@@ -55,8 +53,8 @@
 <header class="page-hero">
   <div class="container">
     <span class="eyebrow">Get in touch</span>
-    <h1 class="page-hero__title">Let&rsquo;s talk about your brief</h1>
-    <p class="page-hero__desc">WhatsApp is the fastest way to reach us. For longer briefs or if you prefer a form, use the contact form below.</p>
+    <h1 class="page-hero__title">Tell us which pack you need</h1>
+    <p class="page-hero__desc">WhatsApp is the fastest way to reach us. Prefer a form? Use the one below.</p>
   </div>
 </header>
 
@@ -68,7 +66,7 @@
       <!-- Left: Contact methods -->
       <div>
         <h2 style="font-size:1.5rem;margin-bottom:0.75rem;">How to reach us</h2>
-        <p style="margin-bottom:2rem;">We respond to WhatsApp messages fastest &mdash; usually within a few hours. Quote enquiries via WhatsApp typically get a response the same day.</p>
+        <p style="margin-bottom:2rem;">WhatsApp is how every pack is actually delivered, so it is also the fastest way to get a response. We typically reply within a few hours.</p>
 
         <!-- WhatsApp (primary) -->
         <div style="background:var(--teal-light);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;">
@@ -100,7 +98,7 @@
           </div>
           <div>
             <div class="contact-method__label">Based in</div>
-            <p class="contact-method__value">Navi Mumbai, India &mdash; serving UAE remotely</p>
+            <p class="contact-method__value">Navi Mumbai, India. Serving UAE remotely.</p>
           </div>
         </div>
 
@@ -111,7 +109,7 @@
           </div>
           <div>
             <div class="contact-method__label">Typical response time</div>
-            <p class="contact-method__value">Same day for WhatsApp &bull; 24hrs for email</p>
+            <p class="contact-method__value">Same day for WhatsApp. 24 hours for email.</p>
           </div>
         </div>
       </div>
@@ -119,16 +117,15 @@
       <!-- Right: Contact form -->
       <div>
         <div class="contact-form-card">
-          <h2 class="contact-form-card__title">Send us your brief</h2>
-          <p class="contact-form-card__subtitle">Fill in what you know &mdash; we&rsquo;ll ask for any details we still need when we respond.</p>
+          <h2 class="contact-form-card__title">Tell us what you're looking for</h2>
+          <p class="contact-form-card__subtitle">Pick the tier you think fits, or select "Not sure yet" and describe what you need.</p>
 
           <!-- Success message (hidden until form submitted) -->
           <div class="form-success" id="formSuccess" role="alert">
-            &#10003;&nbsp; Message sent! We&rsquo;ll get back to you soon. For faster response, also message us on WhatsApp.
+            &#10003;&nbsp; Message sent. We'll get back to you soon. For a faster reply, message us on WhatsApp instead.
           </div>
 
           <form id="contactForm" novalidate>
-            <!-- Formspree hidden fields -->
             <input type="hidden" name="_subject" value="New enquiry from insightacademia.org">
             <input type="hidden" name="_next" value="">
 
@@ -149,26 +146,22 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="service">Service needed</label>
-              <select class="form-select" id="service" name="service">
-                <option value="" disabled selected>Select a service&hellip;</option>
-                <option value="thesis">Thesis &amp; Dissertation</option>
-                <option value="essay">Essay &amp; Assignment</option>
-                <option value="research">Research Assistance</option>
-                <option value="proofreading">Proofreading &amp; Editing</option>
-                <option value="content">Content &amp; Business Writing</option>
+              <label class="form-label" for="tier">Which tier are you interested in?</label>
+              <select class="form-select" id="tier" name="tier">
+                <option value="" disabled selected>Select a tier&hellip;</option>
+                <option value="tier1">Tier 1, Micro ($35-55)</option>
+                <option value="tier2">Tier 2, Standard ($56-100)</option>
+                <option value="tier3">Tier 3, Professional ($101-175)</option>
+                <option value="tier4">Tier 4, Advanced ($176-350)</option>
+                <option value="tier5">Tier 5, Premium ($351-650)</option>
+                <option value="tier6">Tier 6, Enterprise ($750+)</option>
                 <option value="unsure">Not sure yet</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="deadline">Deadline</label>
-              <input class="form-input" type="text" id="deadline" name="deadline" placeholder="e.g. 15 July 2025, or &ldquo;ASAP&rdquo;">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="message">Tell us about your brief <span aria-hidden="true" style="color:var(--teal)">*</span></label>
-              <textarea class="form-textarea" id="message" name="message" rows="5" placeholder="Word count, subject, university, any specific requirements&#8230;" required></textarea>
+              <label class="form-label" for="message">What subject or pack are you looking for? <span aria-hidden="true" style="color:var(--teal)">*</span></label>
+              <textarea class="form-textarea" id="message" name="message" rows="5" placeholder="e.g. a quiz strategy pack for a business statistics module, or a dissertation chapter model" required></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">
@@ -192,13 +185,13 @@
     <div class="footer__grid">
       <div>
         <a href="index.html" class="footer__logo">Insight<span>Academia</span></a>
-        <p class="footer__tagline">Expert academic writing support for UAE university students. Confidential, deadline-driven, and tailored to your institution.</p>
+        <p class="footer__tagline">Structured study packs and ready-to-edit templates for UAE university students.</p>
       </div>
       <div>
         <div class="footer__col-head">Navigate</div>
         <ul class="footer__links">
           <li><a href="index.html">Home</a></li>
-          <li><a href="services.html">Services</a></li>
+          <li><a href="services.html">Study Packs</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
@@ -213,7 +206,7 @@
     </div>
     <div class="footer__bottom">
       <span>&copy; 2025 Insight Academia. All rights reserved.</span>
-      <span>Navi Mumbai, India &middot; Serving UAE Universities</span>
+      <span>Navi Mumbai, India. Serving UAE Universities.</span>
     </div>
   </div>
 </footer>
