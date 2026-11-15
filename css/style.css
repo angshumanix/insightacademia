@@ -11,3 +11,5 @@
 
 /* Flexible guidance: allow full USD ranges to reflow on narrow screens. */
 .pricing-philosophy{display:block;font:600 .8rem/1.6 var(--sans);margin:7px 0;color:var(--pine)}.pricing-detail{font-size:.88rem}.pricing-guidance{max-width:780px;margin-bottom:35px}.pricing-guidance h2{font-size:1.8rem}.pricing-guidance p{font-size:.9rem}.card-bottom{flex-wrap:wrap}.price{overflow-wrap:anywhere}
+/* Original IA/open-book identity. */
+.brand-logo{display:block;width:230px;height:auto}.site-nav{gap:20px}.nav-row{gap:18px}.sample-preview{margin-top:28px}.card-status{line-height:1.6}@media(max-width:400px){.brand-logo{width:185px}}

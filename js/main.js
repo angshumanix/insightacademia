@@ -42,7 +42,7 @@
       card.hidden = !show;
       if (show) total += 1;
     });
-    count.textContent = `${total} ${total === 1 ? 'pack' : 'packs'} shown${tools.dataset.demo === 'true' ? ' · demonstration layouts only' : ''}`;
+    count.textContent = `${total} ${total === 1 ? 'demonstration' : 'demonstrations'} shown${tools.dataset.demo === 'true' ? ' · educational samples' : ''}`;
     empty.hidden = total !== 0;
   };
   query.addEventListener('input', filter);

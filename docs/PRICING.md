@@ -1,10 +1,10 @@
-# Flexible suggested pricing
+# Private pricing architecture
 
-Every product has `suggestedLower` and `suggestedUpper` decimal strings, `currency: "USD"` and an integer `pricingBand` (1–7). The range is displayed as `USD 10.00–30.00` with **Pay what you think is fair**. Amounts may be discussed outside the displayed range. The final purchase amount is agreed manually on Telegram before a PayPal link is sent. There is no website transaction amount field, enforcement, slider or checkout.
+“Pay what you think is fair” remains the approach for any privately agreed full-pack purchase. Discuss availability, contents, an affordable amount and applicable terms through Telegram before sending a manual PayPal payment link. Public demonstration pages and cards show no commercial price or sample price.
 
-`data/pricing-bands.json` stores the approved internal architecture:
+The seven approved internal bands remain in data/pricing-bands.json:
 
-| ID | Internal name | Suggested USD range |
+| Band | Name | Suggested USD range |
 | --- | --- | --- |
 | 1 | Entry | 10–99.99 |
 | 2 | Standard | 100–199.99 |
@@ -14,12 +14,6 @@ Every product has `suggestedLower` and `suggestedUpper` decimal strings, `curren
 | 6 | Comprehensive | 900–1,499.99 |
 | 7 | Complete Collection | 1,500–2,499.99 |
 
-Classification is selected during review and is not calculated from historic transactions. The product's own guidance is chosen for its contents, depth and value. Bands do not determine its range or a customer's final amount. Products remain organized by learning category; band names and a seven-tier table are not rendered on the storefront.
+These are internal classifications, not compulsory payment limits or a public seven-tier table. Future full-pack guidance depends on contents, depth and value; it is not automatically assigned from historical transactions or the highest accommodated band. No historical payments are described as verified pack sales. Agreed transactions are commercial purchases, not donations.
 
-The approved bands were informed by historical payment amounts. No historical payment is represented as a verified study-pack sale. The site contains no transaction history or sales claims. These are purchases of downloadable products, not donations.
-
-Old `price` fields are rejected. Suggested values must be positive finite amounts, with at most two decimal places and lower ≤ upper. Only USD is accepted. These are validation rules for the guidance data, not enforced bounds on the amount discussed with a customer. Band identifiers, category identifiers and range fields are validated independently.
-
-`priceApproved` remains the required human approval flag for the product's suggested range. The existing file/rights/preview approvals and seller/policy release gate remain in force. All demonstrations use modest illustrative ranges and remain unavailable.
-
-Structured data describes real ready products without `Offer`, `AggregateOffer`, `price`, `lowPrice` or `highPrice`. A suggested range is not a set of firm offers. Product rich-result eligibility is not promised; it may be limited without an offer or genuine reviews. Demo pages contain no Product or Offer markup and are excluded from the sitemap.
+The old full-product model validation and priceApproved readiness flag are preserved independently. No price-bearing Product/Offer schema is emitted anywhere in the public demonstration library. The real full products and customer agreements remain separate from the public repository.

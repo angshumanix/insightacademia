@@ -7,7 +7,7 @@ const fs=require('node:fs');const assert=require('node:assert/strict');
  const server=spawn('python',['-m','http.server','8876','--bind','127.0.0.1','--directory','.preview'],{stdio:'ignore'});
  let browser;
  try{
- browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox']});
+ browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:['--no-sandbox']});
  const results=[];const errors=[];
   for(let i=0;i<30;i++){try{await fetch('http://127.0.0.1:8876/');break}catch{await new Promise(r=>setTimeout(r,100));}}
   const context=await browser.newContext();const page=await context.newPage();
@@ -20,7 +20,7 @@ const fs=require('node:fs');const assert=require('node:assert/strict');
     const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1);
     assert.equal(overflow,false,`${width} ${path}: horizontal overflow`);
     const wrong=await page.locator('a[href*="t.me"]').evaluateAll(as=>as.filter(a=>a.href!=='https://t.me/InsightAcademiaPacks').length);assert.equal(wrong,0);
-    if(path.startsWith('packs/')){assert.match(await page.locator('.product-price').innerText(),/USD 10.00–30.00/);assert.equal(await page.locator('.sample-preview img').evaluate(i=>i.complete&&i.naturalWidth>0),true);}
+    if(path.startsWith('packs/')){assert.equal(await page.locator('.product-price').count(),0);assert.match(await page.locator('.status-label').innerText(),/not a complete commercial study pack/);assert.equal(await page.locator('.sample-preview img').evaluate(i=>i.complete&&i.naturalWidth>0),true);}
     results.push(`${width}px ${path}: loaded, no horizontal overflow, exact Telegram destinations`);
     if((width===1440||width===390)&&['index.html','study-packs.html','packs/case-analysis-workbook.html'].includes(path))await page.screenshot({path:`${dir}/${width}-${path.replaceAll('/','-')}.png`,fullPage:true});
    }

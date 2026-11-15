@@ -1,38 +1,13 @@
-# Design and architecture
+# Demonstration-only public architecture
 
-## Visual direction
+The existing green/gold/ivory design and static templates are preserved. Public generation reads only data/demonstrations.json and produces LearningResource metadata, demonstration cards/details, category pages, sample PDFs and information/policy pages. No Product/Offer, public pricing, checkout, full-product listing or full commercial file is generated.
 
-Pine green (`#123e32`), ivory (`#f7f5ef`), restrained gold (`#c0a05a` for decoration, darker `#755b24` for light-surface text), Georgia headings and system body text. The temporary wordmark and small typographic `ia.` mark require no external font or image service and can be replaced in the shared page template. The homepage’s illustrative covers are CSS-native artwork, not claims of finished stock.
+Full-product model/pricing validation helpers are retained independently for future private workflows. The repository is public; its artificial historical examples must never be replaced with confidential inventory or purchase records. Public export copies an explicit list of branding and referenced demonstration assets rather than the entire asset directory.
 
-The homepage uses a compact introduction, four learning categories, product/empty-state section, the three-step ordering explanation and Telegram contact. Card artwork is distinct from the actual product preview. All demonstration specifications and prices are labelled explicitly.
+The default site and review preview are noindex. Release requires explicit seller details, policies, library content and deployment approvals plus per-sample approval, not full-product stock. A release build makes no hosting, DNS or deployment change.
 
-## Architecture
+Navigation is an inline disclosure with accurate expanded state and Escape/focus return. Core pages, links and native FAQs work without JavaScript; filters are progressive enhancement. Skip link/main landmarks, alt text, focus outlines, reduced motion and responsive CSS remain. Rendered browser QA is tracked separately from automated source/behavior checks.
 
-Source data + shared templates → Python standard-library build → static HTML/CSS/JS/assets.
+Privacy: no tracker, enquiry form, account system, external font or customer database. Telegram and PayPal data processing are distinguished in the privacy draft. Recordkeeping instructions are in PURCHASE_RECORDS.md; no records are included. A meta CSP restricts page resources and form/network behavior; actual response-header policy depends on the selected host.
 
-The script does not run on the hosting platform at request time. JSON is not fetched by the browser. Each product has full static text, navigation and SEO metadata. Repeated navigation, footers and detail layouts live in templates. Catalogue cards are composed by one shared builder function. Filtering is optional progressive enhancement.
-
-## Accessibility decisions
-
-- Main landmark, skip link, unique IDs, meaningful heading hierarchy and descriptive image alternatives.
-- Inline mobile navigation disclosure, not a modal overlay. It uses natural tab order, accurate expanded state, close action and Escape/focus return. No focus trap is needed for this nonmodal disclosure.
-- Navigation stays visible without JavaScript; native details/summary FAQs work independently.
-- Search results use a live status and a separate zero-result state. Labels accompany search and category inputs.
-- Focus outlines, contrast-tested primary text combinations, reduced-motion handling and responsive CSS at 1050/900/680/360px.
-- Core body text is 16px; decorative cover typography is hidden from assistive technology because the same title is provided outside it.
-
-Responsive rules are implemented but require real browser visual verification; automated source/behavior checks are not represented as a layout pass.
-
-## SEO and privacy
-
-Unique titles/descriptions, canonical links, social metadata, a local 1200×630 share image, Organization/WebSite/BreadcrumbList JSON-LD and conditional ready-product Product markup. Preview/demo pages are noindex and demos are excluded from the sitemap. The default staging build is noindex; approved release output becomes indexable.
-
-The official Telegram URL is directly in HTML. There are no forms, external fonts, tracker libraries, payment scripts or browser storage. A restrictive meta CSP limits resources to local assets and blocks form submission/network connections. Response-header hardening should be reviewed with the eventual host; no unsupported GitHub response-header configuration is claimed.
-
-`services.html` is a noindex legacy bridge with a canonical to the catalogue and a visible destination link. It is not claimed to be an HTTP 301. A future host may support a true redirect separately.
-
-## Preview modes
-
-The default build is safe staging with no demo products. `--preview` creates a separate noindex review with demo records. `scripts/preview.py` packages those generated pages into one offline review document, including the same CSS, script and embedded approved demo assets. Its wrapper allows local navigation and desktop/mobile frame widths. The review-only packaging replaces the page CSP to inline assets; it does not change the site's deployment files.
-
-No build command deploys. No paid files are committed. Site approval, product readiness and hosting approval are independent decisions.
+The old services.html and how-to-order.html URLs are retained for compatibility with clear demonstration/how-it-works wording. No false HTTP 301 claim is made. No claim is made that this architecture resolves the current host's commercial-use restrictions.

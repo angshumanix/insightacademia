@@ -1,0 +1,35 @@
+name: Demonstration catalogue QA
+on:
+  push:
+    branches: [phase-2-storefront]
+permissions:
+  contents: read
+concurrency:
+  group: catalogue-qa-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  browser:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Install QA dependencies only
+        run: |
+          python -m pip install pypdf
+          npm install --no-save --package-lock=false --ignore-scripts playwright@1.62.1
+          npx playwright install --with-deps chromium
+      - name: Validate and generate demonstrations
+        run: |
+          python -m unittest discover -s tests -p 'test_*.py'
+          node --check js/main.js
+          node tests/interactions.cjs
+      - name: Chromium desktop, mobile and no-JavaScript checks
+        run: node tests/browser.cjs
+      - name: Browser result summary
+        if: success()
+        run: cat .preview/qa/results.json
+# Standard public-repository Ubuntu runner only. No artifact/cache storage,
+# secrets, write permission, Pages action, deployment or paid runner.

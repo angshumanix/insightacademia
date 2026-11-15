@@ -23,6 +23,6 @@ media.matches=false;media.listeners.change();assert.equal(nav.hidden,false);
 media.matches=true;media.listeners.change();assert.equal(nav.hidden,true);
 query.value='   PLANNER ';query.listeners.input();assert.equal(cards.filter(c=>!c.hidden).length,2);
 category.value='research-literature';category.listeners.change();assert.equal(cards.filter(c=>!c.hidden).length,1);
-query.value='unmatched';query.listeners.input();assert.equal(empty.hidden,false);assert.match(count.textContent,/0 packs/);
+query.value='unmatched';query.listeners.input();assert.equal(empty.hidden,false);assert.match(count.textContent,/0 demonstrations/);
 clear.listeners.click();assert.equal(cards.filter(c=>!c.hidden).length,3);assert.equal(empty.hidden,true);assert.equal(query.focused,true);
 console.log('Passed menu toggle, Escape/focus, outside click, breakpoint state, search, category, empty state and reset behavior checks.');

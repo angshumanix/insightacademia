@@ -63,16 +63,19 @@ class SiteTests(unittest.TestCase):
                     for data in re.findall(r'<script type="application/ld\+json">(.*?)</script>',text,re.S):
                         self.assertTrue(json.loads(data)['@graph'])
 
-    def test_demos_cannot_appear_as_available_products(self):
+    def test_public_output_is_demonstrations_only(self):
         pages=json.loads((ROOT/'.generated-pages.json').read_text())
-        self.assertFalse(any(p.startswith('packs/') for p in pages))
-        for file in (ROOT/'.preview/packs').glob('*.html'):
-            text=file.read_text()
-            self.assertIn('Demonstration only',text)
-            self.assertIn('Sample suggested range for layout review',text)
-            self.assertNotIn('"@type": "Product"',text)
-            self.assertNotIn('"@type": "Offer"',text)
-        self.assertNotIn('/packs/',(ROOT/'.preview/sitemap.xml').read_text())
+        self.assertEqual(len([p for p in pages if p.startswith('packs/')]),3)
+        for output in [ROOT,ROOT/'.preview']:
+            for file in (output/'packs').glob('*.html'):
+                text=file.read_text()
+                self.assertIn('Demonstration material — not a complete commercial study pack.',text)
+                self.assertIn('Download sample PDF',text)
+                self.assertNotIn('USD',text)
+                self.assertNotIn('Sample suggested range',text)
+                self.assertNotIn('"@type": "Product"',text)
+                self.assertNotIn('"@type": "Offer"',text)
+                self.assertIn('"@type": "LearningResource"',text)
 
     def test_sitemap_is_valid_and_pages_exist(self):
         for output in [ROOT,ROOT/'.preview']:
@@ -88,31 +91,31 @@ class SiteTests(unittest.TestCase):
         self.assertNotEqual(result.returncode,0)
         self.assertIn('Release blocked',result.stderr)
 
-    def test_approved_fixture_generates_product_without_fixed_offer(self):
-        # Isolated fixture exercises future publication without promoting any real demo record.
+    def test_approved_demonstration_release_without_full_products(self):
         with tempfile.TemporaryDirectory(dir=ROOT) as temp:
             fixture=Path(temp)
             for name in ['scripts','data','templates','css','js','assets']:
                 shutil.copytree(ROOT/name,fixture/name)
             site=json.loads((fixture/'data/site.json').read_text())
-            site.update(sellerName='QA fixture seller',policiesApproved=True)
+            site.update(sellerName='QA fixture seller',policiesApproved=True,sellerDetailsApproved=True,demonstrationsApproved=True,deploymentApproved=True)
             (fixture/'data/site.json').write_text(json.dumps(site))
-            product=json.loads((fixture/'data/products.json').read_text())[0]
-            product.update(id='QA-001',status='ready',version='1.0',title='Approved QA fixture',preview='assets/qa-approved.svg')
-            product['readiness']={k:True for k in product['readiness']}
-            (fixture/'data/products.json').write_text(json.dumps([product]))
-            shutil.copy(fixture/'assets/sample-case.svg',fixture/'assets/qa-approved.svg')
+            demos=json.loads((fixture/'data/demonstrations.json').read_text())
+            for d in demos:d['approved']=True
+            (fixture/'data/demonstrations.json').write_text(json.dumps(demos))
+            # Public generation must never read private/full-product metadata.
+            (fixture/'data/products.json').write_text('[{"title":"CONFIDENTIAL FULL PRODUCT"}]')
             subprocess.run(['python','scripts/build.py','--release','--out','export'],cwd=fixture,check=True,capture_output=True)
-            page=fixture/'export/packs/case-analysis-workbook.html'
-            text=page.read_text()
+            page=fixture/'export/packs/case-analysis-workbook.html';text=page.read_text()
             self.assertIn('content="index, follow"',text)
-            self.assertIn('"@type": "Product"',text)
             self.assertNotIn('"offers"',text)
-            self.assertNotIn('"price"',text)
-            self.assertIn('Pay what you think is fair',text)
-            self.assertIn('Ask about this study pack',text)
-            self.assertNotIn('Policy draft for development review',text)
-            self.assertIn('/packs/case-analysis-workbook.html',(fixture/'export/sitemap.xml').read_text())
+            self.assertNotIn('"@type": "Product"',text)
+            for html in (fixture/'export').rglob('*.html'):
+                self.assertNotIn('CONFIDENTIAL FULL PRODUCT',html.read_text())
+            for gate in ['sellerDetailsApproved','policiesApproved','demonstrationsApproved','deploymentApproved']:
+                modified=dict(site);modified[gate]=False
+                (fixture/'data/site.json').write_text(json.dumps(modified))
+                result=subprocess.run(['python','scripts/build.py','--release','--out','export'],cwd=fixture,capture_output=True)
+                self.assertNotEqual(result.returncode,0,gate)
 
     def test_inventory_safeguards(self):
         site=json.loads((ROOT/'data/site.json').read_text())
@@ -147,12 +150,23 @@ class SiteTests(unittest.TestCase):
         self.assertEqual(builder.price_range(p),'USD 1,500.00–2,499.99')
         for file in (ROOT/'.preview/packs').glob('*.html'):
             text=file.read_text()
-            self.assertIn('Pay what you think is fair',text)
-            self.assertIn('not a compulsory minimum or maximum',text)
+            self.assertNotIn('USD',text)
             self.assertNotIn('Complete Collection',text)
             self.assertNotIn('"offers"',text)
-        for name in ['study-packs.html','how-to-order.html','faq.html']:
+        for name in ['how-to-order.html','faq.html']:
             self.assertIn('Pay what you think is fair',(ROOT/name).read_text())
+
+    def test_policy_commitments_and_sample_files(self):
+        policy=(ROOT/'digital-products.html').read_text()
+        for phrase in ['six months','confirmed payment date','changes of mind','statutory consumer rights','payment-provider protections','No particular number or frequency']:
+            self.assertIn(phrase,policy)
+        from pypdf import PdfReader
+        for demo in json.loads((ROOT/'data/demonstrations.json').read_text()):
+            pdf=PdfReader(ROOT/demo['samplePdf'])
+            self.assertEqual(len(pdf.pages),2)
+            self.assertIn('not a complete commercial study pack',pdf.pages[0].extract_text())
+        for asset in ['logo-dark.svg','logo-light.svg','emblem.svg','favicon.svg']:
+            ET.parse(ROOT/'assets'/asset)
 
     def test_regeneration_is_deterministic_and_cleans_retired_pages(self):
         target=ROOT/'.preview/packs/retired-test.html';target.write_text('retired')
