@@ -87,9 +87,13 @@ class SiteTests(unittest.TestCase):
                 self.assertTrue((output/(urlsplit(url).path.lstrip('/') or 'index.html')).is_file())
 
     def test_release_stops_without_approval(self):
-        result=subprocess.run(['python','scripts/build.py','--release'],cwd=ROOT,capture_output=True,text=True)
-        self.assertNotEqual(result.returncode,0)
-        self.assertIn('Release blocked',result.stderr)
+        with tempfile.TemporaryDirectory(dir=ROOT) as temp:
+            fixture=Path(temp)
+            for folder in ['scripts','data','templates','css','js','assets']:shutil.copytree(ROOT/folder,fixture/folder)
+            site=json.loads((fixture/'data/site.json').read_text());site['deploymentApproved']=False
+            (fixture/'data/site.json').write_text(json.dumps(site))
+            result=subprocess.run(['python','scripts/build.py','--release','--out','export'],cwd=fixture,capture_output=True,text=True)
+            self.assertNotEqual(result.returncode,0);self.assertIn('Release blocked',result.stderr)
 
     def test_approved_demonstration_release_without_full_products(self):
         with tempfile.TemporaryDirectory(dir=ROOT) as temp:
@@ -154,40 +158,21 @@ class SiteTests(unittest.TestCase):
             self.assertNotIn('Complete Collection',text)
             self.assertNotIn('"offers"',text)
         for name in ['how-to-order.html','faq.html']:
-            self.assertIn('Pay what you think is fair',(ROOT/name).read_text())
+            self.assertNotIn('Pay what you think is fair',(ROOT/name).read_text())
 
-    def test_policy_commitments_and_sample_files(self):
-        policy=(ROOT/'digital-products.html').read_text()
-        for phrase in ['six months','confirmed payment date','changes of mind','statutory consumer rights','payment-provider protections','No particular number or frequency']:
-            self.assertIn(phrase,policy)
+    def test_free_launch_scope_and_samples(self):
         from pypdf import PdfReader
-        for demo in json.loads((ROOT/'data/demonstrations.json').read_text()):
-            pdf=PdfReader(ROOT/demo['samplePdf'])
-            self.assertEqual(len(pdf.pages),2)
+        for d in json.loads((ROOT/'data/demonstrations.json').read_text()):
+            pdf=PdfReader(ROOT/d['samplePdf']);self.assertEqual(len(pdf.pages),2)
             self.assertIn('not a complete commercial study pack',pdf.pages[0].extract_text())
-        for asset in ['logo-dark.svg','logo-light.svg','emblem.svg','favicon.svg']:
-            ET.parse(ROOT/'assets'/asset)
-
-    def test_international_only_assumptions_and_brand_privacy(self):
-        site=json.loads((ROOT/'data/site.json').read_text())
-        self.assertEqual(site['sellerName'],'Angshuman Banerjee')
-        self.assertFalse(site['sellerDetailsApproved'])
-        self.assertFalse(site['deploymentApproved'])
-        for name in ['index.html','about.html','contact.html']:
-            text=(ROOT/name).read_text()
-            self.assertNotIn('Angshuman Banerjee',text)
+        for file in [ROOT/p for p in json.loads((ROOT/'.generated-pages.json').read_text())]:
+            text=file.read_text()
+            self.assertNotRegex(text.lower(),r'paypal|pay what|payment link|purchase|price negotiation|full-pack availability')
             self.assertNotRegex(text,r'\b[A-Z]{5}[0-9]{4}[A-Z]\b')
-        faq=(ROOT/'faq.html').read_text()
-        self.assertIn('located outside India',faq)
-        self.assertIn('domestic Indian orders',faq)
-        self.assertIn('complaint',faq)
-        terms=(ROOT/'terms.html').read_text()
-        self.assertIn('operates from India',terms)
-        self.assertIn('legally required seller-identification',terms)
-        privacy=(ROOT/'privacy.html').read_text()
-        self.assertIn('existing PayPal Business account',privacy)
-        self.assertIn('before the first paid sale',privacy)
-        self.assertIn('exclusive ordinary channel',privacy)
+        for name in ['index.html','about.html','contact.html']:
+            self.assertNotIn('Angshuman Banerjee',(ROOT/name).read_text())
+        self.assertIn('Angshuman Banerjee',(ROOT/'privacy.html').read_text())
+        for asset in ['logo-dark.svg','logo-light.svg','emblem.svg','favicon.svg']:ET.parse(ROOT/'assets'/asset)
 
     def test_regeneration_is_deterministic_and_cleans_retired_pages(self):
         target=ROOT/'.preview/packs/retired-test.html';target.write_text('retired')

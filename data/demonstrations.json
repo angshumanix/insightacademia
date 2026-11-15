@@ -19,7 +19,7 @@
     "status": "demo",
     "samplePdf": "assets/demo-case-analysis-workbook.pdf",
     "samplePages": 2,
-    "approved": false
+    "approved": true
   },
   {
     "id": "DEMO-002",
@@ -41,7 +41,7 @@
     "status": "demo",
     "samplePdf": "assets/demo-literature-review-planner.pdf",
     "samplePages": 2,
-    "approved": false
+    "approved": true
   },
   {
     "id": "DEMO-003",
@@ -63,6 +63,6 @@
     "status": "demo",
     "samplePdf": "assets/demo-revision-study-planner.pdf",
     "samplePages": 2,
-    "approved": false
+    "approved": true
   }
 ]

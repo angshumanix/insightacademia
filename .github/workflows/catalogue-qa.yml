@@ -1,7 +1,7 @@
 name: Demonstration catalogue QA
 on:
   push:
-    branches: [phase-2-storefront]
+    branches: [phase-2-storefront, main]
 permissions:
   contents: read
 concurrency:
@@ -27,6 +27,16 @@ jobs:
           node --check js/main.js
           node tests/interactions.cjs
       - name: Chromium desktop, mobile and no-JavaScript checks
+        run: node tests/browser.cjs
+      - name: Cloudflare pre-domain Chromium checks
+        if: github.ref == 'refs/heads/phase-2-storefront'
+        env:
+          SITE_BASE: https://insightacademia.angshuman-ix.workers.dev
+        run: node tests/browser.cjs
+      - name: Live custom-domain Chromium checks
+        if: github.ref == 'refs/heads/main'
+        env:
+          SITE_BASE: https://insightacademia.org
         run: node tests/browser.cjs
       - name: Browser result summary
         if: success()

@@ -4,7 +4,7 @@
   "telegram": "https://t.me/InsightAcademiaPacks",
   "telegramUsername": "@InsightAcademiaPacks",
   "sellerName": "Angshuman Banerjee",
-  "policiesApproved": false,
+  "policiesApproved": true,
   "categories": [
     {
       "id": "study-skills",
@@ -31,7 +31,8 @@
       "number": "04"
     }
   ],
-  "sellerDetailsApproved": false,
-  "demonstrationsApproved": false,
-  "deploymentApproved": false
+  "sellerDetailsApproved": true,
+  "demonstrationsApproved": true,
+  "deploymentApproved": true,
+  "publicMode": "free-educational"
 }
