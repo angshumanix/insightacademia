@@ -25,7 +25,7 @@ Responsive rules are implemented but require real browser visual verification; a
 
 ## SEO and privacy
 
-Unique titles/descriptions, canonical links, social metadata, a local 1200×630 share image, Organization/WebSite/BreadcrumbList JSON-LD and conditional ready-product Product/Offer markup. Preview/demo pages are noindex and demos are excluded from the sitemap. The default staging build is noindex; approved release output becomes indexable.
+Unique titles/descriptions, canonical links, social metadata, a local 1200×630 share image, Organization/WebSite/BreadcrumbList JSON-LD and conditional ready-product Product markup. Preview/demo pages are noindex and demos are excluded from the sitemap. The default staging build is noindex; approved release output becomes indexable.
 
 The official Telegram URL is directly in HTML. There are no forms, external fonts, tracker libraries, payment scripts or browser storage. A restrictive meta CSP limits resources to local assets and blocks form submission/network connections. Response-header hardening should be reviewed with the eventual host; no unsupported GitHub response-header configuration is claimed.
 

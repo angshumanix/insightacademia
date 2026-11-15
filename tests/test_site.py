@@ -69,7 +69,7 @@ class SiteTests(unittest.TestCase):
         for file in (ROOT/'.preview/packs').glob('*.html'):
             text=file.read_text()
             self.assertIn('Demonstration only',text)
-            self.assertIn('Sample price for layout review',text)
+            self.assertIn('Sample suggested range for layout review',text)
             self.assertNotIn('"@type": "Product"',text)
             self.assertNotIn('"@type": "Offer"',text)
         self.assertNotIn('/packs/',(ROOT/'.preview/sitemap.xml').read_text())
@@ -88,7 +88,7 @@ class SiteTests(unittest.TestCase):
         self.assertNotEqual(result.returncode,0)
         self.assertIn('Release blocked',result.stderr)
 
-    def test_approved_fixture_generates_static_product_and_offer(self):
+    def test_approved_fixture_generates_product_without_fixed_offer(self):
         # Isolated fixture exercises future publication without promoting any real demo record.
         with tempfile.TemporaryDirectory(dir=ROOT) as temp:
             fixture=Path(temp)
@@ -107,7 +107,9 @@ class SiteTests(unittest.TestCase):
             text=page.read_text()
             self.assertIn('content="index, follow"',text)
             self.assertIn('"@type": "Product"',text)
-            self.assertIn('"priceCurrency": "USD"',text)
+            self.assertNotIn('"offers"',text)
+            self.assertNotIn('"price"',text)
+            self.assertIn('Pay what you think is fair',text)
             self.assertIn('Ask about this study pack',text)
             self.assertNotIn('Policy draft for development review',text)
             self.assertIn('/packs/case-analysis-workbook.html',(fixture/'export/sitemap.xml').read_text())
@@ -125,6 +127,32 @@ class SiteTests(unittest.TestCase):
         p=copy.deepcopy(products[0]);p['preview']='../CNAME'
         with self.assertRaises(ValueError):builder.validate(site,[p])
         with self.assertRaises(ValueError):builder.validate(site,products+products[:1])
+
+    def test_flexible_price_ranges_and_classification(self):
+        site=json.loads((ROOT/'data/site.json').read_text())
+        product=json.loads((ROOT/'data/products.json').read_text())[0]
+        bands=json.loads((ROOT/'data/pricing-bands.json').read_text())
+        self.assertEqual([(b['id'],b['name'],b['suggestedLower'],b['suggestedUpper']) for b in bands], [
+            (1,'Entry','10.00','99.99'),(2,'Standard','100.00','199.99'),(3,'Professional','200.00','349.99'),
+            (4,'Advanced','350.00','549.99'),(5,'Premium','550.00','899.99'),(6,'Comprehensive','900.00','1499.99'),(7,'Complete Collection','1500.00','2499.99')])
+        for band in range(1,8):
+            p=copy.deepcopy(product);p['pricingBand']=band;builder.validate(site,[p])
+        for changes in [{'suggestedLower':'30.01','suggestedUpper':'30.00'}, {'suggestedLower':'NaN'}, {'suggestedUpper':'Infinity'}, {'suggestedUpper':'-1'}, {'suggestedLower':'1.001'}, {'pricingBand':8}, {'pricingBand':True}, {'currency':'EUR'}, {'price':'19.00'}]:
+            p=copy.deepcopy(product);p.update(changes)
+            with self.subTest(changes=changes), self.assertRaises(ValueError):builder.validate(site,[p])
+        # Internal classification never forces a customer's amount or dictates the product range.
+        p=copy.deepcopy(product);p.update(suggestedLower='1.00',suggestedUpper='4.00');builder.validate(site,[p])
+        self.assertEqual(builder.price_range(p),'USD 1.00–4.00')
+        p.update(suggestedLower='1500.00',suggestedUpper='2499.99')
+        self.assertEqual(builder.price_range(p),'USD 1,500.00–2,499.99')
+        for file in (ROOT/'.preview/packs').glob('*.html'):
+            text=file.read_text()
+            self.assertIn('Pay what you think is fair',text)
+            self.assertIn('not a compulsory minimum or maximum',text)
+            self.assertNotIn('Complete Collection',text)
+            self.assertNotIn('"offers"',text)
+        for name in ['study-packs.html','how-to-order.html','faq.html']:
+            self.assertIn('Pay what you think is fair',(ROOT/name).read_text())
 
     def test_regeneration_is_deterministic_and_cleans_retired_pages(self):
         target=ROOT/'.preview/packs/retired-test.html';target.write_text('retired')

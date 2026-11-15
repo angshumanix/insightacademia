@@ -48,10 +48,16 @@ These checks cover page contracts, links, Telegram destinations, metadata, demo 
 ## Before any release
 
 1. Resolve the hosting choice; GitHub Pages' commercial-use restrictions remain relevant. No host migration is implemented.
-2. Approve the seller identity, policies, actual products, rights, preview extracts, prices and delivery process.
+2. Approve the seller identity, policies, actual products, rights, preview extracts, suggested ranges and delivery process.
 3. Replace demonstration records with real product records and approved public preview extracts; retain paid files privately for manual Telegram delivery.
 4. Set `sellerName` and `policiesApproved` only after approval, and update the policy prose to match the decisions. This flag does not rewrite policy text.
 5. Run `python scripts/build.py --release --out .preview/release`. This generates an indexable static export only; it does not publish anything. It fails until seller/policy approval and at least one ready product exist.
 6. Complete browser QA on the release export, confirm canonical origin, validate structured data and obtain explicit deployment approval.
 
 All customer contact links must remain exactly `https://t.me/InsightAcademiaPacks`. PayPal links and files are sent manually through Telegram. No transaction or customer data is stored by this site.
+
+## Suggested pricing and browser QA
+
+See `docs/PRICING.md` for flexible product ranges and seven internal classification bands. Students discuss the final amount through Telegram; the range is guidance. Product schema intentionally omits Offer prices.
+
+An optional real-browser suite is available as `node tests/browser.cjs`. It requires Playwright and a usable Chromium installation in the **QA environment only**; set `CHROMIUM_PATH` when necessary. Neither is a storefront dependency. It covers 1440/768/390/320px pages, filters, menu/Escape, FAQ and keyboard behavior, preview images, exact Telegram destinations, overflow and JavaScript-disabled browsing. See `docs/REVIEW.md` for the actual result, not the intended coverage. `python scripts/preview.py` produces the offline review with four frame-width controls.
