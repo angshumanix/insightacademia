@@ -20,7 +20,7 @@ class Links(HTMLParser):
 def fetch(path):
     with urlopen(Request(BASE+path, headers={'User-Agent':'InsightAcademia-Release-QA/1.0 (+https://insightacademia.org)'}), timeout=30) as r:
         return r.status, r.read(), {k.lower():v for k,v in r.headers.items()}
-paths=['/']+['/'+str(p.relative_to(ROOT)) for p in ROOT.rglob('*.html') if p.name != '404.html' and '.preview' not in p.parts and 'node_modules' not in p.parts and '.git' not in p.parts]
+paths=['/']+['/'+str(p.relative_to(ROOT)) for p in ROOT.rglob('*.html') if p.name != '404.html' and '.preview' not in p.parts and 'node_modules' not in p.parts and '.git' not in p.parts and 'templates' not in p.parts]
 paths += ['/robots.txt','/sitemap.xml']
 checked=set(paths)
 for path in paths:
