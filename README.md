@@ -41,3 +41,5 @@ Real browser QA is `node tests/browser.cjs`, with Playwright installed in the QA
 `python scripts/build.py --release --out .preview/release` generates indexable demonstration output only; it never deploys. It requires nonblank seller identity, `sellerDetailsApproved`, `policiesApproved`, `demonstrationsApproved` and `deploymentApproved`, plus `approved: true` on every demonstration. Full commercial inventory is neither required nor permitted as public input. Approving a flag does not rewrite policy drafts; finalize the prose and obtain owner/legal/hosting approval first.
 
 Keep main, Pages settings and DNS unchanged until explicit launch approval. Catalogue-only positioning does not itself resolve GitHub Pages' commercial-use restrictions.
+
+Confirmed operating assumptions and the split website/pre-sale checklist are in docs/BUSINESS_ASSUMPTIONS.md and docs/LAUNCH_CHECKLIST.md. PAN remains private; no domestic orders or domestic payment methods are supported.

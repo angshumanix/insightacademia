@@ -168,6 +168,27 @@ class SiteTests(unittest.TestCase):
         for asset in ['logo-dark.svg','logo-light.svg','emblem.svg','favicon.svg']:
             ET.parse(ROOT/'assets'/asset)
 
+    def test_international_only_assumptions_and_brand_privacy(self):
+        site=json.loads((ROOT/'data/site.json').read_text())
+        self.assertEqual(site['sellerName'],'Angshuman Banerjee')
+        self.assertFalse(site['sellerDetailsApproved'])
+        self.assertFalse(site['deploymentApproved'])
+        for name in ['index.html','about.html','contact.html']:
+            text=(ROOT/name).read_text()
+            self.assertNotIn('Angshuman Banerjee',text)
+            self.assertNotRegex(text,r'\b[A-Z]{5}[0-9]{4}[A-Z]\b')
+        faq=(ROOT/'faq.html').read_text()
+        self.assertIn('located outside India',faq)
+        self.assertIn('domestic Indian orders',faq)
+        self.assertIn('complaint',faq)
+        terms=(ROOT/'terms.html').read_text()
+        self.assertIn('operates from India',terms)
+        self.assertIn('legally required seller-identification',terms)
+        privacy=(ROOT/'privacy.html').read_text()
+        self.assertIn('existing PayPal Business account',privacy)
+        self.assertIn('before the first paid sale',privacy)
+        self.assertIn('exclusive ordinary channel',privacy)
+
     def test_regeneration_is_deterministic_and_cleans_retired_pages(self):
         target=ROOT/'.preview/packs/retired-test.html';target.write_text('retired')
         manifest=ROOT/'.preview/.generated-pages.json';old=json.loads(manifest.read_text());manifest.write_text(json.dumps(old+['packs/retired-test.html']))
