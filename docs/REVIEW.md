@@ -11,3 +11,12 @@ Automated results: ten Python tests pass, covering page/link/metadata and exact 
 Local Chromium previously failed before page load because socket creation is denied. The updated Playwright suite is now provided as a non-deployment GitHub Actions workflow on the existing development branch. It uses a standard public-repository Ubuntu runner with read-only access and no artifact/cache storage, secrets or paid infrastructure. Its observed remote result will be recorded separately once available; a queued workflow is not a pass.
 
 Outstanding business decisions: seller identity and jurisdiction/legal review; exact privacy retention/handling responsibilities; approval of sample content and branding; commercially suitable hosting and deployment approval. Full commercial products will be developed and approved separately. Removing web checkout does not resolve GitHub Pages restrictions.
+
+## Observed remote browser result
+
+GitHub Actions run 43719114753 succeeded on source commit d4dac73181cf536a138e673afab04f6a3444bbee:
+https://github.com/angshumanix/insightacademia/actions/runs/43719114753
+
+Chromium 151.0.7922.34 completed 29 logged result groups with zero page errors. It checked six page types at 1440/768/390/320px for loading, horizontal overflow and exact Telegram destinations; catalogue search/category/no-match/reset; menu close/Escape/focus return at narrow widths; FAQ keyboard disclosure; skip-link focus; preview image decoding; and 320px JavaScript-disabled navigation, catalogue, sample detail, preview and FAQ. The ten Python tests and JavaScript checks also passed in the runner.
+
+Screenshots were generated inside the runner but were not uploaded to paid artifact storage. No claim is made that those screenshots were manually inspected. The inspectable offline preview remains the visual-review deliverable. Remaining manual checks include assistive-technology behavior, 200% zoom and final editorial/legal/owner review; no Lighthouse performance score is claimed. This documentation-only result update skips CI because tested website/test/workflow source is unchanged.
