@@ -1,0 +1,68 @@
+[
+  {
+    "id": "DEMO-001",
+    "slug": "case-analysis-workbook",
+    "title": "The case analysis workbook",
+    "category": "essays-reports",
+    "summary": "A guided route from the first reading to a clear, well-supported analysis.",
+    "description": "Explore an educational example and a reusable practice worksheet. The sample illustrates the approach and structure of our learning resources.",
+    "audience": "Students exploring case-based learning and analytical report structures.",
+    "contents": [
+      "A short teaching example",
+      "Questions to guide your thinking",
+      "A personal practice worksheet"
+    ],
+    "cover": "case",
+    "preview": "assets/sample-case.svg",
+    "previewAlt": "Demonstration worksheet showing an issue, supporting evidence and a question to explore.",
+    "updated": "2026-11-15",
+    "status": "demo",
+    "samplePdf": "assets/demo-case-analysis-workbook.pdf",
+    "samplePages": 2,
+    "approved": true
+  },
+  {
+    "id": "DEMO-002",
+    "slug": "literature-review-planner",
+    "title": "The literature review planner",
+    "category": "research-literature",
+    "summary": "Bring your reading together, one source, theme and connection at a time.",
+    "description": "Explore an educational example and a reusable practice worksheet. The sample illustrates the approach and structure of our learning resources.",
+    "audience": "Students learning to organize sources and develop a literature review.",
+    "contents": [
+      "A short teaching example",
+      "Questions to guide your thinking",
+      "A personal practice worksheet"
+    ],
+    "cover": "research",
+    "preview": "assets/sample-research.svg",
+    "previewAlt": "Demonstration reading matrix with columns for source, key idea and connection.",
+    "updated": "2026-11-15",
+    "status": "demo",
+    "samplePdf": "assets/demo-literature-review-planner.pdf",
+    "samplePages": 2,
+    "approved": true
+  },
+  {
+    "id": "DEMO-003",
+    "slug": "revision-study-planner",
+    "title": "The purposeful revision planner",
+    "category": "study-skills",
+    "summary": "Turn a stack of notes into focused topics, useful questions and a workable plan.",
+    "description": "Explore an educational example and a reusable practice worksheet. The sample illustrates the approach and structure of our learning resources.",
+    "audience": "Students developing an independent revision routine.",
+    "contents": [
+      "A short teaching example",
+      "Questions to guide your thinking",
+      "A personal practice worksheet"
+    ],
+    "cover": "revision",
+    "preview": "assets/sample-revision.svg",
+    "previewAlt": "Demonstration revision planner with a topic, recall prompt and next review field.",
+    "updated": "2026-11-15",
+    "status": "demo",
+    "samplePdf": "assets/demo-revision-study-planner.pdf",
+    "samplePages": 2,
+    "approved": true
+  }
+]

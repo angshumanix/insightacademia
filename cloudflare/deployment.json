@@ -1,0 +1,12 @@
+{
+  "worker": "insightacademia",
+  "account_id": "2a81832762172bda8d930e5b1bf9af3c",
+  "zone_id": "2272175e16db8d57acabeabedc68702e",
+  "domains": ["insightacademia.org", "www.insightacademia.org"],
+  "build": "python scripts/build.py --release --out .preview/release",
+  "assets_only": true,
+  "html_handling": "none",
+  "not_found_handling": "404-page",
+  "root_alias": "/index.html is additionally uploaded as /",
+  "billing": "Static Assets serving only; no Worker module, no paid subscription activation"
+}

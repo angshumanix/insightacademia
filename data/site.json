@@ -1,0 +1,38 @@
+{
+  "name": "InsightAcademia",
+  "url": "https://insightacademia.org",
+  "telegram": "https://t.me/InsightAcademiaPacks",
+  "telegramUsername": "@InsightAcademiaPacks",
+  "sellerName": "Angshuman Banerjee",
+  "policiesApproved": true,
+  "categories": [
+    {
+      "id": "study-skills",
+      "name": "Study skills & revision",
+      "description": "Make sense of your notes and build a more purposeful revision routine.",
+      "number": "01"
+    },
+    {
+      "id": "essays-reports",
+      "name": "Essays, reports & cases",
+      "description": "Explore clear structures, analytical frameworks and worked learning examples.",
+      "number": "02"
+    },
+    {
+      "id": "research-literature",
+      "name": "Research & literature",
+      "description": "Organize reading, compare sources and understand the research process.",
+      "number": "03"
+    },
+    {
+      "id": "presentations-business",
+      "name": "Presentations & business",
+      "description": "Connect ideas through presentation planning and business learning resources.",
+      "number": "04"
+    }
+  ],
+  "sellerDetailsApproved": true,
+  "demonstrationsApproved": true,
+  "deploymentApproved": true,
+  "publicMode": "free-educational"
+}

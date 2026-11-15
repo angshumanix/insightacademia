@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "name": "Entry",
+    "suggestedLower": "10.00",
+    "suggestedUpper": "99.99",
+    "currency": "USD"
+  },
+  {
+    "id": 2,
+    "name": "Standard",
+    "suggestedLower": "100.00",
+    "suggestedUpper": "199.99",
+    "currency": "USD"
+  },
+  {
+    "id": 3,
+    "name": "Professional",
+    "suggestedLower": "200.00",
+    "suggestedUpper": "349.99",
+    "currency": "USD"
+  },
+  {
+    "id": 4,
+    "name": "Advanced",
+    "suggestedLower": "350.00",
+    "suggestedUpper": "549.99",
+    "currency": "USD"
+  },
+  {
+    "id": 5,
+    "name": "Premium",
+    "suggestedLower": "550.00",
+    "suggestedUpper": "899.99",
+    "currency": "USD"
+  },
+  {
+    "id": 6,
+    "name": "Comprehensive",
+    "suggestedLower": "900.00",
+    "suggestedUpper": "1499.99",
+    "currency": "USD"
+  },
+  {
+    "id": 7,
+    "name": "Complete Collection",
+    "suggestedLower": "1500.00",
+    "suggestedUpper": "2499.99",
+    "currency": "USD"
+  }
+]
