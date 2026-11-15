@@ -1,0 +1,41 @@
+[
+  {
+    "id": "DEMO-001", "slug": "case-analysis-workbook", "status": "demo",
+    "title": "The case analysis workbook", "category": "essays-reports",
+    "summary": "A guided route from the first reading to a clear, well-supported analysis.",
+    "description": "This demonstration shows how a study pack could explain a topic through prompts, a worked example and a practical planning worksheet.",
+    "audience": "Students exploring case-based learning and analytical report structures.",
+    "contents": ["A case-reading checklist", "An issue-to-evidence planning map", "An annotated learning example", "A reusable reflection worksheet"],
+    "formats": ["PDF"], "pages": 24, "price": "19.00", "currency": "USD", "version": "Demo",
+    "cover": "case", "preview": "assets/sample-case.svg",
+    "previewAlt": "Demonstration worksheet showing an issue, supporting evidence and a question to explore.",
+    "readiness": {"fileVerified": false, "rightsApproved": false, "previewApproved": false, "priceApproved": false},
+    "updated": "2026-11-15"
+  },
+  {
+    "id": "DEMO-002", "slug": "literature-review-planner", "status": "demo",
+    "title": "The literature review planner", "category": "research-literature",
+    "summary": "Bring your reading together, one source, theme and connection at a time.",
+    "description": "This demonstration illustrates a research learning pack built around a reading matrix, source comparison and a theme-planning worksheet.",
+    "audience": "Students learning to organize sources and develop a literature review.",
+    "contents": ["A source-reading guide", "A literature matrix", "Theme-mapping prompts", "An example synthesis plan"],
+    "formats": ["PDF", "DOCX"], "pages": 18, "price": "15.00", "currency": "USD", "version": "Demo",
+    "cover": "research", "preview": "assets/sample-research.svg",
+    "previewAlt": "Demonstration reading matrix with columns for source, key idea and connection.",
+    "readiness": {"fileVerified": false, "rightsApproved": false, "previewApproved": false, "priceApproved": false},
+    "updated": "2026-11-15"
+  },
+  {
+    "id": "DEMO-003", "slug": "revision-study-planner", "status": "demo",
+    "title": "The purposeful revision planner", "category": "study-skills",
+    "summary": "Turn a stack of notes into focused topics, useful questions and a workable plan.",
+    "description": "This demonstration illustrates a revision resource with a topic map, retrieval prompts and a weekly planning page.",
+    "audience": "Students developing an independent revision routine.",
+    "contents": ["A topic-priority map", "Active-recall question prompts", "A weekly revision layout", "A review and reflection page"],
+    "formats": ["PDF"], "pages": 16, "price": "12.00", "currency": "USD", "version": "Demo",
+    "cover": "revision", "preview": "assets/sample-revision.svg",
+    "previewAlt": "Demonstration revision planner with a topic, recall prompt and next review field.",
+    "readiness": {"fileVerified": false, "rightsApproved": false, "previewApproved": false, "priceApproved": false},
+    "updated": "2026-11-15"
+  }
+]

@@ -1,134 +1,56 @@
-/* =====================================================
-   INSIGHT ACADEMIA — main.js
-   Update CONFIG below with your actual details.
-   ===================================================== */
-
-const CONFIG = {
-  // Your WhatsApp number — international format, no +, no spaces
-  whatsapp: '918779528840',
-
-  // Default pre-filled WhatsApp message
-  whatsappMessage: 'Hello! I would like to know more about your study packs.',
-
-  // Create a free form at https://formspree.io — paste your endpoint here
-  formspree: 'https://formspree.io/f/YOURFORMID',
-
-  // Your contact email
-  email: 'hello@insightacademia.org',
-};
-
-// -------------------------------------------------------
-// Build WhatsApp links
-// -------------------------------------------------------
-function buildWhatsAppLinks() {
-  const url = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(CONFIG.whatsappMessage)}`;
-  document.querySelectorAll('.wa-link').forEach(el => {
-    el.href = url;
-  });
-}
-
-// -------------------------------------------------------
-// Navigation: scroll shadow + active state
-// -------------------------------------------------------
-function initNav() {
-  const nav = document.getElementById('nav');
-  if (!nav) return;
-
-  const onScroll = () => {
-    nav.classList.toggle('scrolled', window.scrollY > 50);
-  };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll(); // run on load
-
-  // Mark active link by pathname
-  const path = window.location.pathname.replace(/\/$/, '') || '/';
-  nav.querySelectorAll('.nav__links a').forEach(link => {
-    const href = new URL(link.href).pathname.replace(/\/$/, '') || '/';
-    if (href === path) link.classList.add('active');
-  });
-}
-
-// -------------------------------------------------------
-// Mobile drawer
-// -------------------------------------------------------
-function initMobileMenu() {
-  const toggle  = document.getElementById('navToggle');
-  const drawer  = document.getElementById('navDrawer');
-  const closeBtn = document.getElementById('drawerClose');
-  if (!toggle || !drawer) return;
-
-  toggle.addEventListener('click', () => drawer.classList.add('open'));
-  closeBtn?.addEventListener('click', () => drawer.classList.remove('open'));
-
-  // Close on backdrop click
-  drawer.addEventListener('click', e => {
-    if (e.target === drawer) drawer.classList.remove('open');
-  });
-
-  // Close on link click
-  drawer.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => drawer.classList.remove('open'));
-  });
-}
-
-// -------------------------------------------------------
-// FAQ accordion
-// -------------------------------------------------------
-function initFAQ() {
-  document.querySelectorAll('.faq-question').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest('.faq-item');
-      item.classList.toggle('open');
+/* Progressive enhancement: all navigation, product content and contact links work without JS. */
+(() => {
+  'use strict';
+  const toggle = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('#site-nav');
+  const narrow = window.matchMedia('(max-width: 900px)');
+  if (toggle && nav) {
+    toggle.hidden = false;
+    const setOpen = (open, restoreFocus = false) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.firstChild.textContent = open ? 'Close ' : 'Menu ';
+      nav.hidden = narrow.matches && !open;
+      if (restoreFocus) toggle.focus();
+    };
+    const sync = () => setOpen(!narrow.matches);
+    sync();
+    narrow.addEventListener('change', sync);
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    nav.addEventListener('click', e => {
+      if (narrow.matches && e.target.closest('a')) setOpen(false);
     });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && narrow.matches && toggle.getAttribute('aria-expanded') === 'true') setOpen(false, true);
+    });
+    document.addEventListener('click', e => {
+      if (narrow.matches && !e.target.closest('.site-header')) setOpen(false);
+    });
+  }
+  const tools = document.querySelector('[data-catalogue-tools]');
+  if (!tools) return;
+  tools.hidden = false;
+  const query = tools.querySelector('input');
+  const category = tools.querySelector('select');
+  const cards = [...document.querySelectorAll('[data-product]')];
+  const count = document.querySelector('[data-result-count]');
+  const empty = document.querySelector('[data-no-results]');
+  const filter = () => {
+    const term = query.value.trim().toLocaleLowerCase();
+    let total = 0;
+    cards.forEach(card => {
+      const show = (!category.value || card.dataset.category === category.value) && card.textContent.toLocaleLowerCase().includes(term);
+      card.hidden = !show;
+      if (show) total += 1;
+    });
+    count.textContent = `${total} ${total === 1 ? 'pack' : 'packs'} shown${tools.dataset.demo === 'true' ? ' · demonstration layouts only' : ''}`;
+    empty.hidden = total !== 0;
+  };
+  query.addEventListener('input', filter);
+  category.addEventListener('change', filter);
+  tools.querySelector('button').addEventListener('click', () => {
+    query.value = '';
+    category.value = '';
+    filter();
+    query.focus();
   });
-}
-
-// -------------------------------------------------------
-// Contact form (Formspree AJAX)
-// -------------------------------------------------------
-function initContactForm() {
-  const form = document.getElementById('contactForm');
-  if (!form) return;
-
-  const successMsg = document.getElementById('formSuccess');
-  const submitBtn  = form.querySelector('[type="submit"]');
-
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    submitBtn.disabled    = true;
-    submitBtn.textContent = 'Sending…';
-
-    try {
-      const res = await fetch(CONFIG.formspree, {
-        method:  'POST',
-        body:    new FormData(form),
-        headers: { Accept: 'application/json' },
-      });
-
-      if (res.ok) {
-        form.reset();
-        if (successMsg) successMsg.classList.add('visible');
-        // Scroll success message into view
-        successMsg?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      } else {
-        alert('Something went wrong. Please try WhatsApp or email instead.');
-      }
-    } catch {
-      alert('Network error. Please try WhatsApp or email instead.');
-    } finally {
-      submitBtn.disabled    = false;
-      submitBtn.textContent = 'Send message';
-    }
-  });
-}
-
-// -------------------------------------------------------
-// Init
-// -------------------------------------------------------
-document.addEventListener('DOMContentLoaded', () => {
-  buildWhatsAppLinks();
-  initNav();
-  initMobileMenu();
-  initFAQ();
-  initContactForm();
-});
+})();

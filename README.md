@@ -1,103 +1,57 @@
-# Insight Academia — insightacademia.org
+# InsightAcademia
 
-Static website for Insight Academia. Built with plain HTML/CSS/JS — no build step, no dependencies.
+A lightweight static study-pack catalogue. HTML, CSS and a small progressive-enhancement script are the only browser dependencies. Python 3.9+ generates repeated pages from shared templates and JSON data using the standard library; no packages or subscriptions are required.
 
----
+## Development status
 
-## File structure
+This is Phase 2 development work. Do not merge or deploy without the owner's explicit approval. The original implementation remains in Git history at `2e5d05697a2a1e4ee1aa2e9afe02b093d021564c`. CNAME and the live Pages configuration have not been changed.
 
-```
-insightacademia/
-├── index.html          Home page
-├── services.html       Services page
-├── about.html          About page
-├── contact.html        Contact page
-├── css/style.css       All styles
-├── js/main.js          Navigation, FAQ accordion, contact form
-├── CNAME               Custom domain for GitHub Pages
-└── .nojekyll           Disables Jekyll on GitHub Pages
+The default generated site is an unlaunched staging collection with **zero available products**, `noindex` metadata and policy drafts. The three product records are demonstrations, not real stock. Demo detail pages appear only in a separately generated preview. No paid downloads belong in this public repository.
+
+## Build and preview
+
+```sh
+python scripts/build.py
+python scripts/build.py --preview --out .preview
+python -m http.server 8765
 ```
 
----
+Open `http://localhost:8765/` for staging, or `http://localhost:8765/.preview/` for the labelled design preview. Both outputs work as static files. Local search and navigation enhancements require JavaScript; core links, product information, contact URLs and native FAQs work without it. Run a local server for realistic CSP testing.
 
-## Step 1: Configure your details
+For a portable offline review with page navigation and desktop/mobile frame controls, run `python scripts/preview.py` and open `.preview/InsightAcademia_Design_Preview.html`. This is a review document, not a deployment export.
 
-Open `js/main.js` and update the CONFIG object at the top:
+Never serve the repository directory itself publicly: it contains source, configuration and documentation. Serve only a reviewed static export folder. `.preview` is ignored by Git.
 
-```js
-const CONFIG = {
-  whatsapp: 'YOURNUMBER',         // e.g. '919876543210' (no + or spaces)
-  whatsappMessage: '...',         // Pre-filled message — edit if needed
-  formspree: 'https://formspree.io/f/YOURFORMID',   // See Step 2
-  email: 'hello@insightacademia.org',
-};
+## Editing
+
+- `data/site.json`: brand, official Telegram URL, learning categories, seller identity and policy approval flag.
+- `data/products.json`: product register; see `docs/PRODUCTS.md`.
+- `templates/page.html`: shared document head, navigation and footer.
+- `templates/product.html`: reusable product-page layout.
+- `scripts/build.py`: content composition, validation and page generation.
+- `css/style.css`: green/gold/ivory design, responsive layouts and accessible states.
+- `js/main.js`: inline mobile-navigation disclosure and catalogue filters.
+- `assets/`: intentionally public branding and preview assets only.
+
+Edit the source and regenerate; do not hand-edit generated HTML. `.generated-pages.json` tracks generated pages so retired pages are removed on the next build. Existing non-generated files are preserved. Use one output directory per build mode.
+
+## Verification
+
+```sh
+python -m unittest discover -s tests -p 'test_*.py'
+node --check js/main.js
+node tests/interactions.cjs
 ```
 
----
+These checks cover page contracts, links, Telegram destinations, metadata, demo exclusion, publication safeguards, colour combinations and script behavior. They do not replace real browser layout, keyboard and assistive-technology review. Record results and remaining limitations in `docs/REVIEW.md`.
 
-## Step 2: Set up Formspree (contact form)
+## Before any release
 
-1. Go to https://formspree.io and create a free account
-2. Click "New Form" — name it "Insight Academia Contact"
-3. Copy the form endpoint URL (looks like `https://formspree.io/f/xyzabc12`)
-4. Paste it into `CONFIG.formspree` in `js/main.js`
+1. Resolve the hosting choice; GitHub Pages' commercial-use restrictions remain relevant. No host migration is implemented.
+2. Approve the seller identity, policies, actual products, rights, preview extracts, prices and delivery process.
+3. Replace demonstration records with real product records and approved public preview extracts; retain paid files privately for manual Telegram delivery.
+4. Set `sellerName` and `policiesApproved` only after approval, and update the policy prose to match the decisions. This flag does not rewrite policy text.
+5. Run `python scripts/build.py --release --out .preview/release`. This generates an indexable static export only; it does not publish anything. It fails until seller/policy approval and at least one ready product exist.
+6. Complete browser QA on the release export, confirm canonical origin, validate structured data and obtain explicit deployment approval.
 
-Free tier: 50 submissions/month. Upgrade if needed.
-
----
-
-## Step 3: Deploy to GitHub Pages
-
-1. Create a GitHub account at https://github.com if you don't have one
-2. Create a new repository — name it anything (e.g. `insightacademia-site`)
-3. Upload all files from this folder into the repository (drag and drop, or use git)
-4. Go to **Settings → Pages**
-5. Under "Source", select **Deploy from a branch**
-6. Set Branch to **main**, folder to **/ (root)** → click Save
-7. GitHub will give you a URL like `https://username.github.io/insightacademia-site`
-
-Your site is now live at that URL. Test it before pointing your domain.
-
----
-
-## Step 4: Connect your custom domain (insightacademia.org)
-
-In GitHub → Settings → Pages → Custom domain, enter `insightacademia.org` and save.
-
-Then go to your domain registrar (wherever you bought insightacademia.org) and add these DNS records:
-
-**A records** (for the apex domain `insightacademia.org`):
-
-| Type | Name | Value          |
-|------|------|----------------|
-| A    | @    | 185.199.108.153 |
-| A    | @    | 185.199.109.153 |
-| A    | @    | 185.199.110.153 |
-| A    | @    | 185.199.111.153 |
-
-**CNAME record** (for `www`):
-
-| Type  | Name | Value                         |
-|-------|------|-------------------------------|
-| CNAME | www  | yourusername.github.io        |
-
-DNS propagation takes 15 minutes to 48 hours. Once live, GitHub Pages will also issue a free SSL certificate — enable "Enforce HTTPS" in Pages settings once it appears.
-
----
-
-## Optional: Replace the About page photo
-
-In `about.html`, find the `<div class="about-image-placeholder">` element and replace it with:
-
-```html
-<img src="images/your-photo.jpg" alt="Insight Academia" style="width:100%;border-radius:var(--radius-xl);object-fit:cover;aspect-ratio:4/5;">
-```
-
-Create an `images/` folder in the root and add your photo there.
-
----
-
-## Updating content
-
-All copy is in the HTML files. Search for any text you want to change and edit directly.
-The copyright year in the footer is in each HTML file — update it annually.
+All customer contact links must remain exactly `https://t.me/InsightAcademiaPacks`. PayPal links and files are sent manually through Telegram. No transaction or customer data is stored by this site.
